@@ -19,16 +19,13 @@ jobs:
           mkdir -p "$tap_dir/Casks"
           cp Casks/unchair.rb "$tap_dir/Casks/unchair.rb"
 
-      - name: Trust cask for audit
-        run: brew trust --cask EtienneDeneuve/unchair/unchair
-
       - name: Style
         run: brew style EtienneDeneuve/unchair/unchair
 
-      - name: Audit
-        run: brew audit --cask --strict EtienneDeneuve/unchair/unchair
+      - name: Clear inherited cask trust
+        run: brew untrust --cask EtienneDeneuve/unchair/unchair || true
 
-      - name: Install
+      - name: Install with the public one-liner
         run: brew install --cask EtienneDeneuve/unchair/unchair
 
       - name: Verify installed app
@@ -38,3 +35,9 @@ jobs:
 
       - name: Uninstall
         run: brew uninstall --cask EtienneDeneuve/unchair/unchair
+
+      - name: Trust cask for strict audit
+        run: brew trust --cask EtienneDeneuve/unchair/unchair
+
+      - name: Audit
+        run: brew audit --cask --strict EtienneDeneuve/unchair/unchair
