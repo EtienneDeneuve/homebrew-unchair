@@ -1,0 +1,37 @@
+name: Validate Homebrew cask
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  cask:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create local tap from this checkout
+        run: |
+          set -euo pipefail
+          brew tap-new EtienneDeneuve/unchair
+          tap_dir="$(brew --repository EtienneDeneuve/unchair)"
+          mkdir -p "$tap_dir/Casks"
+          cp Casks/unchair.rb "$tap_dir/Casks/unchair.rb"
+
+      - name: Style
+        run: brew style EtienneDeneuve/unchair/unchair
+
+      - name: Audit
+        run: brew audit --cask --strict EtienneDeneuve/unchair/unchair
+
+      - name: Install
+        run: brew install --cask EtienneDeneuve/unchair/unchair
+
+      - name: Verify installed app
+        run: |
+          test -d /Applications/Unchair.app
+          spctl -a -vv /Applications/Unchair.app
+
+      - name: Uninstall
+        run: brew uninstall --cask EtienneDeneuve/unchair/unchair
