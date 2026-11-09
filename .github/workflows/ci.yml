@@ -19,6 +19,9 @@ jobs:
           mkdir -p "$tap_dir/Casks"
           cp Casks/unchair.rb "$tap_dir/Casks/unchair.rb"
 
+      - name: Trust cask for audit
+        run: brew trust --cask EtienneDeneuve/unchair/unchair
+
       - name: Style
         run: brew style EtienneDeneuve/unchair/unchair
 
