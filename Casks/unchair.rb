@@ -4,7 +4,7 @@ cask "unchair" do
 
   url "https://github.com/EtienneDeneuve/unchair/releases/download/v#{version}/Unchair-#{version}-macos.dmg"
   name "Unchair"
-  desc "Local-first macOS sit-break reminders with on-device Vision movement proof"
+  desc "Local-first sit-break reminders with on-device Vision movement proof"
   homepage "https://github.com/EtienneDeneuve/unchair"
 
   livecheck do
@@ -13,7 +13,7 @@ cask "unchair" do
   end
 
   auto_updates true
-  depends_on macos: ">= :sonoma"
+  depends_on macos: :sonoma
 
   app "Unchair.app"
 
